@@ -3,12 +3,28 @@
       {
         "id": 1,
         "title": "hello"
+      },
+      {
+        "id": 2,
+        "title": "hello world"
+      },
+      {
+        "id": 3,
+        "title": "hello joro reacta"
       }
     ],
     "users": [
         {
             "id": 1,
             "name": "Joro Reacta"
+        },
+        {
+            "id": 2,
+            "name": "Joro Use Effect-a"
+        },
+        {
+            "id": 3,
+            "name": "Joro Redux-a"
         }
     ],
     "profile": {
