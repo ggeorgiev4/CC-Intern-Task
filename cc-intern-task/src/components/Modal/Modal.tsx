@@ -1,22 +1,7 @@
-import { ReactNode, useEffect, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-
-export interface ModalProps {
-    title: string;
-    body: ReactNode;
-    actions: Array<{
-        text: string;
-        onClick: (e?: any) => void;
-        type: string;
-        submit?: () => void;
-    }>;
-    show: boolean;
-    modalProperties: Object;
-}
+import { ModalProps } from '../../models/modal-props';
 
 export const ModalWrapper = ({ title, body, actions, show, modalProperties }: ModalProps) => {
-    const [content, setContent] = useState(modalProperties);
-
     return (
         <Modal show={show} backdrop="static">
             <Modal.Header>

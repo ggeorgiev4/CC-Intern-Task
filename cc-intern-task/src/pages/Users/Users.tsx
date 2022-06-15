@@ -1,10 +1,12 @@
-import React, { useContext, useReducer } from 'react';
+import { useContext } from 'react';
 import { useEffect, useState } from 'react';
 import { Row, Col, Form } from 'react-bootstrap';
 import { AppContext } from '../../App';
-import { ModalProps, ModalWrapper } from '../../components/Modal/Modal';
+import { ModalWrapper } from '../../components/Modal/Modal';
 import { PaginationWrapper } from '../../components/Pagination/Pagination';
 import { BackendService } from '../../helpers/Backend-Service';
+import { SITE_CONFIG } from '../../helpers/site-config';
+import { ModalProps } from '../../models/modal-props';
 import { User } from '../../models/user-model';
 
 export const Users = () => {
@@ -18,7 +20,7 @@ export const Users = () => {
     });
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [query, setQuery] = useState<string>('');
-    const pageSize = 5;
+
     const backendService = new BackendService();
     const props = useContext(AppContext);
 
@@ -191,11 +193,13 @@ export const Users = () => {
                 </Col>
             </Row>
 
-            <Row>
-                <Col>
-                    <PropertyCheckboxes />
-                </Col>
-            </Row>
+            {users.length > 0 && (
+                <Row>
+                    <Col>
+                        <PropertyCheckboxes />
+                    </Col>
+                </Row>
+            )}
 
             {users
                 .filter((u: User) => {
@@ -206,8 +210,9 @@ export const Users = () => {
                     return u;
                 })
                 .slice(
-                    (currentPage ? currentPage - 1 : 1) * pageSize,
-                    (currentPage ? currentPage - 1 : 1) * pageSize + pageSize
+                    (currentPage ? currentPage - 1 : 1) * SITE_CONFIG.PAGE_SIZE,
+                    (currentPage ? currentPage - 1 : 1) * SITE_CONFIG.PAGE_SIZE +
+                        SITE_CONFIG.PAGE_SIZE
                 )
                 .map((user: User, key) => (
                     <Row
@@ -215,7 +220,7 @@ export const Users = () => {
                         className={`mx-1 ${key % 2 === 0 ? `bg-primary text-white` : ''}`}
                     >
                         <p className="mb-0 py-3">
-                            #{props.data.id && user.id} - {props.data.name && user.name}
+                            {props.data.id && <>#{user.id} - </>} {props.data.name && user.name}
                             {props.data.actions && (
                                 <button
                                     onClick={() => {
@@ -244,7 +249,7 @@ export const Users = () => {
                                 return u;
                             }),
                         ]}
-                        pageSize={pageSize}
+                        pageSize={SITE_CONFIG.PAGE_SIZE}
                         page={currentPage}
                         onPaginationChange={paginationChange}
                     />

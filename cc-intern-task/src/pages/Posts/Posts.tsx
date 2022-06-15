@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Row, Col, Form } from 'react-bootstrap';
-import { ModalProps, ModalWrapper } from '../../components/Modal/Modal';
+import { ModalWrapper } from '../../components/Modal/Modal';
 import { PaginationWrapper } from '../../components/Pagination/Pagination';
 import { BackendService } from '../../helpers/Backend-Service';
 import { Post } from '../../models/post-model';
 import { BsSortAlphaDown, BsSortAlphaDownAlt } from 'react-icons/bs';
 import './styles.scss';
+import { SITE_CONFIG } from '../../helpers/site-config';
+import { ModalProps } from '../../models/modal-props';
 
 export const Posts = () => {
     const [posts, setPosts] = useState<Array<Post>>([]);
@@ -19,7 +21,6 @@ export const Posts = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [query, setQuery] = useState<string>('');
     const [sort, setSort] = useState<string>('');
-    const pageSize = 5;
 
     useEffect(() => {
         const getData = async () => {
@@ -84,7 +85,6 @@ export const Posts = () => {
         });
 
         const onPostTitleChange = ($event: any, post?: Post) => {
-            console.log($event.target.value);
             setModalProps({
                 title,
                 body,
@@ -110,7 +110,7 @@ export const Posts = () => {
                 (data) => {
                     setModalProps({ ...modalProps, show: false });
 
-                    // fakse update -> should be updatePostsData()
+                    // false update -> should be updatePostsData()
                     const postToUpdate = posts.findIndex((post) => post.id === event.post.id);
                     if (postToUpdate) {
                         posts[postToUpdate].title = data.post.title;
@@ -211,8 +211,9 @@ export const Posts = () => {
                     return b.title.localeCompare(a.title);
                 })
                 .slice(
-                    (currentPage ? currentPage - 1 : 1) * pageSize,
-                    (currentPage ? currentPage - 1 : 1) * pageSize + pageSize
+                    (currentPage ? currentPage - 1 : 1) * SITE_CONFIG.PAGE_SIZE,
+                    (currentPage ? currentPage - 1 : 1) * SITE_CONFIG.PAGE_SIZE +
+                        SITE_CONFIG.PAGE_SIZE
                 )
                 .map((post: Post, key) => (
                     <Row key={key} className={`mx-1 ${key % 2 === 0 ? `bg-warning` : ''}`}>
@@ -244,7 +245,7 @@ export const Posts = () => {
                                 return p;
                             }),
                         ]}
-                        pageSize={pageSize}
+                        pageSize={SITE_CONFIG.PAGE_SIZE}
                         page={currentPage}
                         onPaginationChange={paginationChange}
                     />

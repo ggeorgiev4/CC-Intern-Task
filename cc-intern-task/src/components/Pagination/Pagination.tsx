@@ -9,8 +9,8 @@ export const PaginationWrapper = ({
     onPaginationChange,
     page,
 }: PaginationProps) => {
-    const [items, setItems]: any = useState([]);
-    const [currentPage, setCurrentPage] = useState(page);
+    const [items, setItems] = useState<Array<any>>([]);
+    const [currentPage, setCurrentPage] = useState<number>(page);
 
     useEffect(() => {
         initItems();
@@ -30,6 +30,7 @@ export const PaginationWrapper = ({
                 </Pagination.Item>
             );
         }
+
         setItems(tempItems);
     };
 
