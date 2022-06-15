@@ -15,7 +15,6 @@ export const AppRoutes = () => {
                         <Route index element={<Home />} />
                         <Route path="users" element={<Users />} />
                         <Route path="posts" element={<Posts />} />
-                        <Route path="home" element={<Home />} />
                     </Routes>
                 </Layout>
             </BrowserRouter>

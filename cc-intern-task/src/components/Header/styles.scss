@@ -1,0 +1,30 @@
+.navbar-brand {
+    cursor: pointer;
+}
+
+.nav-link {
+    position: relative;
+    padding: 0 !important;
+
+    ~.nav-link {
+        margin-left: 15px;
+    }
+
+    &::after {
+        position: absolute;
+        top: calc(100% + 5px);
+        left: 50%;
+        transform: translateX(-50%);
+        content: '';
+        width: 0;
+        background: rgb(60, 122, 204);
+        height: 2px;
+        transition: 0.3s all;
+    }
+
+    &.active {
+        &::after {
+            width: 50%;
+        }
+    }
+}

@@ -1,15 +1,40 @@
-import { useEffect } from 'react';
+import React from 'react';
+import { useContext } from 'react';
+import { useState } from 'react';
+import { Col, Row } from 'react-bootstrap';
+import { AppContext } from '../../App';
+import { ModalProps, ModalWrapper } from '../../components/Modal/Modal';
+import { Posts } from '../Posts/Posts';
+import { Users } from '../Users/Users';
 
 export const Home = () => {
-    useEffect(() => {
-        fetch('https://my-json-server.typicode.com/ggeorgiev4/CC-Intern-Task/posts/1')
-            .then((response) => response.json())
-            .then((json) => console.log(json));
-
-        fetch('https://my-json-server.typicode.com/ggeorgiev4/CC-Intern-Task/users/1')
-            .then((response) => response.json())
-            .then((json) => console.log(json));
+    const [modalProps, setModalProps] = useState<ModalProps>({
+        title: '',
+        body: <></>,
+        actions: [],
+        show: false,
+        modalProperties: {},
     });
 
-    return <div className="home-wrapper">home</div>;
+    return (
+        <div className="home-wrapper">
+            <Row className="justify-content-center">
+                <Col>
+                    <Users />
+                </Col>
+
+                <Col>
+                    <Posts />
+                </Col>
+            </Row>
+
+            <ModalWrapper
+                title={modalProps.title}
+                body={modalProps.body}
+                actions={modalProps.actions}
+                show={modalProps.show}
+                modalProperties={modalProps.modalProperties}
+            />
+        </div>
+    );
 };
