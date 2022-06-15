@@ -215,17 +215,19 @@ export const Users = () => {
                         className={`mx-1 ${key % 2 === 0 ? `bg-primary text-white` : ''}`}
                     >
                         <p className="mb-0 py-3">
-                            #{user.id} - {user.name}
-                            <button
-                                onClick={() => {
-                                    createEditUser(user);
-                                }}
-                                className={`btn btn-outline btn-outline-${
-                                    key % 2 === 0 ? 'warning' : 'danger'
-                                } float-end py-0`}
-                            >
-                                Edit
-                            </button>
+                            #{props.data.id && user.id} - {props.data.name && user.name}
+                            {props.data.actions && (
+                                <button
+                                    onClick={() => {
+                                        createEditUser(user);
+                                    }}
+                                    className={`btn btn-outline btn-outline-${
+                                        key % 2 === 0 ? 'warning' : 'danger'
+                                    } float-end py-0`}
+                                >
+                                    Edit
+                                </button>
+                            )}
                         </p>
                     </Row>
                 ))}
