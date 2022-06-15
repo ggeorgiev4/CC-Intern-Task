@@ -8,6 +8,7 @@ import { BackendService } from '../../helpers/Backend-Service';
 import { SITE_CONFIG } from '../../helpers/site-config';
 import { ModalProps } from '../../models/modal-props';
 import { User } from '../../models/user-model';
+import { useQuery } from './users.hook';
 
 export const Users = () => {
     const [users, setUsers] = useState<Array<User>>([]);
@@ -18,8 +19,11 @@ export const Users = () => {
         show: false,
         modalProperties: {},
     });
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const [query, setQuery] = useState<string>('');
+
+    const { usersFiltered, setCurrentPage, setQuery, currentPage, totalItems } = useQuery(
+        SITE_CONFIG.PAGE_SIZE,
+        users
+    );
 
     const backendService = new BackendService();
     const props = useContext(AppContext);
@@ -193,7 +197,7 @@ export const Users = () => {
                 </Col>
             </Row>
 
-            {users.length > 0 && (
+            {usersFiltered.length > 0 && (
                 <Row>
                     <Col>
                         <PropertyCheckboxes />
@@ -201,54 +205,30 @@ export const Users = () => {
                 </Row>
             )}
 
-            {users
-                .filter((u: User) => {
-                    if (query && query.length > 0) {
-                        return u.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
-                    }
-
-                    return u;
-                })
-                .slice(
-                    (currentPage ? currentPage - 1 : 1) * SITE_CONFIG.PAGE_SIZE,
-                    (currentPage ? currentPage - 1 : 1) * SITE_CONFIG.PAGE_SIZE +
-                        SITE_CONFIG.PAGE_SIZE
-                )
-                .map((user: User, key) => (
-                    <Row
-                        key={key}
-                        className={`mx-1 ${key % 2 === 0 ? `bg-primary text-white` : ''}`}
-                    >
-                        <p className="mb-0 py-3">
-                            {props.data.id && <>#{user.id} - </>} {props.data.name && user.name}
-                            {props.data.actions && (
-                                <button
-                                    onClick={() => {
-                                        createEditUser(user);
-                                    }}
-                                    className={`btn btn-outline btn-outline-${
-                                        key % 2 === 0 ? 'warning' : 'danger'
-                                    } float-end py-0`}
-                                >
-                                    Edit
-                                </button>
-                            )}
-                        </p>
-                    </Row>
-                ))}
+            {usersFiltered.map((user: User, key) => (
+                <Row key={key} className={`mx-1 ${key % 2 === 0 ? `bg-primary text-white` : ''}`}>
+                    <p className="mb-0 py-3">
+                        {props.data.id && <>#{user.id} - </>} {props.data.name && user.name}
+                        {props.data.actions && (
+                            <button
+                                onClick={() => {
+                                    createEditUser(user);
+                                }}
+                                className={`btn btn-outline btn-outline-${
+                                    key % 2 === 0 ? 'warning' : 'danger'
+                                } float-end py-0`}
+                            >
+                                Edit
+                            </button>
+                        )}
+                    </p>
+                </Row>
+            ))}
 
             {users.length > 0 ? (
                 <Row className="mt-5">
                     <PaginationWrapper
-                        data={[
-                            ...users.filter((u: User) => {
-                                if (query && query.length > 0) {
-                                    return u.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
-                                }
-
-                                return u;
-                            }),
-                        ]}
+                        totalItems={totalItems}
                         pageSize={SITE_CONFIG.PAGE_SIZE}
                         page={currentPage}
                         onPaginationChange={paginationChange}

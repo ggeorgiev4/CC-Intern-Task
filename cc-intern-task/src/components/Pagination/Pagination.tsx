@@ -4,7 +4,7 @@ import { PaginationProps } from '../../models/pagination-model';
 import './styles.scss';
 
 export const PaginationWrapper = ({
-    data,
+    totalItems,
     pageSize,
     onPaginationChange,
     page,
@@ -14,11 +14,11 @@ export const PaginationWrapper = ({
 
     useEffect(() => {
         initItems();
-    }, [currentPage, data]);
+    }, [currentPage, totalItems]);
 
     const initItems = () => {
         let tempItems = [];
-        const numberOfPages = Math.ceil(data.length / pageSize);
+        const numberOfPages = Math.ceil(totalItems / pageSize);
         for (let number = 1; number <= numberOfPages; number++) {
             tempItems.push(
                 <Pagination.Item

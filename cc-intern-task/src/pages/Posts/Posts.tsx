@@ -8,6 +8,7 @@ import { BsSortAlphaDown, BsSortAlphaDownAlt } from 'react-icons/bs';
 import './styles.scss';
 import { SITE_CONFIG } from '../../helpers/site-config';
 import { ModalProps } from '../../models/modal-props';
+import { useQuery } from './posts.hook';
 
 export const Posts = () => {
     const [posts, setPosts] = useState<Array<Post>>([]);
@@ -18,9 +19,9 @@ export const Posts = () => {
         show: false,
         modalProperties: {},
     });
-    const [currentPage, setCurrentPage] = useState(1);
-    const [query, setQuery] = useState<string>('');
-    const [sort, setSort] = useState<string>('');
+
+    const { postsFiltered, setCurrentPage, setQuery, setSort, currentPage, totalItems, sort } =
+        useQuery(SITE_CONFIG.PAGE_SIZE, posts);
 
     useEffect(() => {
         const getData = async () => {
@@ -194,57 +195,28 @@ export const Posts = () => {
                 </Col>
             </Row>
 
-            {posts
-                .filter((p: Post) => {
-                    if (query && query.length > 0) {
-                        return p.title.toLowerCase().indexOf(query.toLowerCase()) > -1;
-                    }
-
-                    return p;
-                })
-                .sort((a, b): number => {
-                    if (!sort.length) return 0;
-                    if (sort === 'asc') {
-                        return a.title.localeCompare(b.title);
-                    }
-
-                    return b.title.localeCompare(a.title);
-                })
-                .slice(
-                    (currentPage ? currentPage - 1 : 1) * SITE_CONFIG.PAGE_SIZE,
-                    (currentPage ? currentPage - 1 : 1) * SITE_CONFIG.PAGE_SIZE +
-                        SITE_CONFIG.PAGE_SIZE
-                )
-                .map((post: Post, key) => (
-                    <Row key={key} className={`mx-1 ${key % 2 === 0 ? `bg-warning` : ''}`}>
-                        <p className="mb-0 py-3">
-                            #{post.id} - {post.title}
-                            <button
-                                onClick={() => {
-                                    createEditPost(post);
-                                }}
-                                className={`btn btn-outline btn-outline-${
-                                    key % 2 === 0 ? 'danger' : 'secondary'
-                                } float-end py-0`}
-                            >
-                                Edit
-                            </button>
-                        </p>
-                    </Row>
-                ))}
+            {postsFiltered.map((post: Post, key) => (
+                <Row key={key} className={`mx-1 ${key % 2 === 0 ? `bg-warning` : ''}`}>
+                    <p className="mb-0 py-3">
+                        #{post.id} - {post.title}
+                        <button
+                            onClick={() => {
+                                createEditPost(post);
+                            }}
+                            className={`btn btn-outline btn-outline-${
+                                key % 2 === 0 ? 'danger' : 'secondary'
+                            } float-end py-0`}
+                        >
+                            Edit
+                        </button>
+                    </p>
+                </Row>
+            ))}
 
             {posts.length > 0 ? (
                 <Row className="mt-5">
                     <PaginationWrapper
-                        data={[
-                            ...posts.filter((p: Post) => {
-                                if (query && query.length > 0) {
-                                    return p.title.toLowerCase().indexOf(query.toLowerCase()) > -1;
-                                }
-
-                                return p;
-                            }),
-                        ]}
+                        totalItems={totalItems}
                         pageSize={SITE_CONFIG.PAGE_SIZE}
                         page={currentPage}
                         onPaginationChange={paginationChange}

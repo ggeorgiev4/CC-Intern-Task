@@ -1,5 +1,5 @@
 export interface PaginationProps {
-    data: Array<any>;
+    totalItems: number;
     pageSize: number;
     page: number;
     onPaginationChange: (e: any) => void;
