@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import { BackendService } from '../../helpers/Backend-Service';
 import { User } from '../../models/user-model';
 
 interface IGetUser {

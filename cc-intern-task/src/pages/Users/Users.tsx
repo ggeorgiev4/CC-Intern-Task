@@ -29,11 +29,9 @@ export const Users = () => {
     const props = useContext(AppContext);
 
     useEffect(() => {
-        const getData = async () => {
-            await updateUsersData();
-        };
+        updateUsersData();
 
-        getData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const updateUsersData = async () => {

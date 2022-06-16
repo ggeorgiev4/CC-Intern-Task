@@ -1,6 +1,6 @@
-export class BackendService {
-    constructor() {}
+import { SITE_CONFIG } from './site-config';
 
+export class BackendService {
     async call(url: string, method: 'PUT' | 'POST' | 'GET', body?: Object) {
         const requestOptions = {
             method: method,
@@ -8,9 +8,8 @@ export class BackendService {
             body: JSON.stringify(body),
         };
 
-        return fetch(
-            `https://my-json-server.typicode.com/ggeorgiev4/CC-Intern-Task${url}`,
-            requestOptions
-        ).then((response) => response.json());
+        return fetch(`${SITE_CONFIG.ENVIRONMENT_URL}${url}`, requestOptions).then((response) =>
+            response.json()
+        );
     }
 }

@@ -14,6 +14,8 @@ export const PaginationWrapper = ({
 
     useEffect(() => {
         initItems();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage, totalItems]);
 
     const initItems = () => {

@@ -29,6 +29,8 @@ export const Posts = () => {
         };
 
         getData();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const updatePostsData = async () => {
