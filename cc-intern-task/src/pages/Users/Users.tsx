@@ -32,9 +32,11 @@ export const Users = ({ pagination }: { pagination?: boolean }) => {
         entriesData: Array<IntersectionObserverEntry>,
         observer: IntersectionObserver
     ) => {
-        entriesData.forEach((el, index) => {
+        entriesData.forEach((el) => {
+            const entryIndex = Number(el.target.getAttribute('data-index'));
+
             if (el.isIntersecting) {
-                el.target.setAttribute('src', `https://picsum.photos/200/300?random=${index}`);
+                el.target.setAttribute('src', usersFiltered[entryIndex].avatar ?? '');
             } else {
                 el.target.removeAttribute('src');
             }
@@ -71,7 +73,9 @@ export const Users = ({ pagination }: { pagination?: boolean }) => {
     }, [usersFiltered]);
 
     const updateUsersData = async () => {
-        await backendService.call('/users', 'GET').then((data: Array<User>) => setUsers(data));
+        await backendService.call('/users', 'GET').then((data: Array<User>) => {
+            setUsers(data);
+        });
     };
 
     const onUserSearch = (query: string) => {
@@ -246,7 +250,7 @@ export const Users = ({ pagination }: { pagination?: boolean }) => {
                         className={`mx-1 user-row ${key % 2 === 0 ? `bg-primary text-white` : ''}`}
                     >
                         <p className="mb-0 py-3">
-                            <img src="" alt="" key={key} />
+                            <img src="" alt="" data-index={key} />
                             {props.data.id && <>#{user.id} - </>}
                             {props.data.name && user.name}
                             {props.data.actions && (
