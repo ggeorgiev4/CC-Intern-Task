@@ -249,7 +249,7 @@ export const Users = ({ pagination }: { pagination?: boolean }) => {
                         key={key}
                         className={`mx-1 user-row ${key % 2 === 0 ? `bg-primary text-white` : ''}`}
                     >
-                        <p className="mb-0 py-3">
+                        <p className="mb-0 py-3 align-items-center d-flex justify-content-between">
                             <img src="" alt="" data-index={key} />
                             {props.data.id && <>#{user.id} - </>}
                             {props.data.name && user.name}
