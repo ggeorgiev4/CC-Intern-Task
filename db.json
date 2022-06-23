@@ -1,105 +1,185 @@
 {
-    "posts": [
-      {
-        "id": 1,
-        "title": "hello"
-      },
-      {
-        "id": 2,
-        "title": "hello world"
-      },
-      {
-        "id": 3,
-        "title": "hello joro reacta"
-      },
-      {
-        "id": 12,
-        "title": "hello 1"
-      },
-      {
-        "id": 22,
-        "title": "hello world 1"
-      },
-      {
-        "id": 32,
-        "title": "hello joro reacta 1"
-      },
-      {
-        "id": 13,
-        "title": "hello 2"
-      },
-      {
-        "id": 23,
-        "title": "yhello world 2"
-      },
-      {
-        "id": 33,
-        "title": "hello joro reacta 2"
-      },
-      {
-        "id": 14,
-        "title": "hello 3"
-      },
-      {
-        "id": 24,
-        "title": "zhello world 3"
-      },
-      {
-        "id": 34,
-        "title": "9hello joro reacta 3"
-      }
-    ],
-    "users": [
-        {
-            "id": 1,
-            "name": "Joro Reacta"
-        },
-        {
-            "id": 2,
-            "name": "Joro Use Effect-a"
-        },
-        {
-            "id": 3,
-            "name": "Joro Redux-a"
-        },
-        {
-            "id": 11,
-            "name": "Joro Reacta 1"
-        },
-        {
-            "id": 21,
-            "name": "Joro Use Effect-a 1"
-        },
-        {
-            "id": 31,
-            "name": "Joro Redux-a 1"
-        },
-        {
-            "id": 12,
-            "name": "Joro Reacta 2"
-        },
-        {
-            "id": 22,
-            "name": "Joro Use Effect-a 2"
-        },
-        {
-            "id": 32,
-            "name": "Joro Redux-a 2"
-        },
-        {
-            "id": 13,
-            "name": "Joro Reacta 3"
-        },
-        {
-            "id": 23,
-            "name": "Joro Use Effect-a 3"
-        },
-        {
-            "id": 33,
-            "name": "Joro Redux-a 3"
-        }
-    ],
-    "profile": {
-      "name": "typicode"
-    }
+  "posts":[
+     {
+        "id":1,
+        "title":"hello"
+     },
+     {
+        "id":2,
+        "title":"hello world"
+     },
+     {
+        "id":3,
+        "title":"hello joro reacta"
+     },
+     {
+        "id":12,
+        "title":"hello 1"
+     },
+     {
+        "id":22,
+        "title":"hello world 1"
+     },
+     {
+        "id":32,
+        "title":"hello joro reacta 1"
+     },
+     {
+        "id":13,
+        "title":"hello 2"
+     },
+     {
+        "id":23,
+        "title":"yhello world 2"
+     },
+     {
+        "id":33,
+        "title":"hello joro reacta 2"
+     },
+     {
+        "id":14,
+        "title":"hello 3"
+     },
+     {
+        "id":24,
+        "title":"zhello world 3"
+     },
+     {
+        "id":34,
+        "title":"9hello joro reacta 3"
+     }
+  ],
+  "users":[
+     {
+        "id":1,
+        "name":"Joro Reacta"
+     },
+     {
+        "id":2,
+        "name":"Joro Use Effect-a"
+     },
+     {
+        "id":3,
+        "name":"Joro Redux-a"
+     },
+     {
+        "id":11,
+        "name":"Joro Reacta 1"
+     },
+     {
+        "id":21,
+        "name":"Joro Use Effect-a 1"
+     },
+     {
+        "id":31,
+        "name":"Joro Redux-a 1"
+     },
+     {
+        "id":12,
+        "name":"Joro Reacta 2"
+     },
+     {
+        "id":22,
+        "name":"Joro Use Effect-a 2"
+     },
+     {
+        "id":32,
+        "name":"Joro Redux-a 2"
+     },
+     {
+        "id":13,
+        "name":"Joro Reacta 3"
+     },
+     {
+        "id":23,
+        "name":"Joro Use Effect-a 3"
+     },
+     {
+        "id":33,
+        "name":"Joro Redux-a 3"
+     },
+     {
+        "id":32,
+        "name":"Joro Redux-a 2"
+     },
+     {
+        "id":13,
+        "name":"Joro Reacta 3"
+     },
+     {
+        "id":23,
+        "name":"Joro Use Effect-a 3"
+     },
+     {
+        "id":33,
+        "name":"Joro Redux-a 3"
+     },
+     {
+        "id":32,
+        "name":"Joro Redux-a 2"
+     },
+     {
+        "id":13,
+        "name":"Joro Reacta 3"
+     },
+     {
+        "id":23,
+        "name":"Joro Use Effect-a 3"
+     },
+     {
+        "id":33,
+        "name":"Joro Redux-a 3"
+     },
+     {
+        "id":32,
+        "name":"Joro Redux-a 2"
+     },
+     {
+        "id":13,
+        "name":"Joro Reacta 3"
+     },
+     {
+        "id":23,
+        "name":"Joro Use Effect-a 3"
+     },
+     {
+        "id":33,
+        "name":"Joro Redux-a 3"
+     },
+     {
+        "id":32,
+        "name":"Joro Redux-a 2"
+     },
+     {
+        "id":13,
+        "name":"Joro Reacta 3"
+     },
+     {
+        "id":23,
+        "name":"Joro Use Effect-a 3"
+     },
+     {
+        "id":33,
+        "name":"Joro Redux-a 3"
+     },
+     {
+        "id":32,
+        "name":"Joro Redux-a 2"
+     },
+     {
+        "id":13,
+        "name":"Joro Reacta 3"
+     },
+     {
+        "id":23,
+        "name":"Joro Use Effect-a 3"
+     },
+     {
+        "id":33,
+        "name":"Joro Redux-a 3"
+     }
+  ],
+  "profile":{
+     "name":"typicode"
+  }
 }
