@@ -10,17 +10,19 @@ interface IGetUser {
     setQuery: Dispatch<SetStateAction<string>>;
 }
 
-export const useQuery = (pageSize: number, users: User[]): IGetUser => {
+export const useQuery = (pageSize: number, users: User[] = [], pagination: boolean): IGetUser => {
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const usersFiltered = users.filter(
         ({ name }) => name.toLocaleLowerCase().indexOf(query.toLocaleLowerCase()) > -1
     );
     return {
-        usersFiltered: usersFiltered.slice(
-            (currentPage ? currentPage - 1 : 1) * pageSize,
-            (currentPage ? currentPage - 1 : 1) * pageSize + pageSize
-        ),
+        usersFiltered: pagination
+            ? usersFiltered.slice(
+                  (currentPage ? currentPage - 1 : 1) * pageSize,
+                  (currentPage ? currentPage - 1 : 1) * pageSize + pageSize
+              )
+            : usersFiltered,
         setCurrentPage,
         totalItems: usersFiltered.length,
         query,

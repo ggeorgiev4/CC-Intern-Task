@@ -7,7 +7,7 @@ export const Home = () => {
         <div className="home-wrapper">
             <Row className="justify-content-center">
                 <Col>
-                    <Users />
+                    <Users pagination={true} />
                 </Col>
 
                 <Col>

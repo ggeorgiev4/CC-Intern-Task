@@ -9,8 +9,10 @@ import { SITE_CONFIG } from '../../helpers/site-config';
 import { ModalProps } from '../../models/modal-props';
 import { User } from '../../models/user-model';
 import { useQuery } from './users.hook';
+import './styles.scss';
+import { infiniteScroll } from '../../helpers/intersection-observer';
 
-export const Users = () => {
+export const Users = ({ pagination }: { pagination: boolean }) => {
     const [users, setUsers] = useState<Array<User>>([]);
     const [modalProps, setModalProps] = useState<ModalProps>({
         title: '',
@@ -22,17 +24,52 @@ export const Users = () => {
 
     const { usersFiltered, setCurrentPage, setQuery, currentPage, totalItems } = useQuery(
         SITE_CONFIG.PAGE_SIZE,
-        users
+        users,
+        pagination
     );
+
+    const [entries, setEntries] = useState<IntersectionObserverEntry[]>();
+
+    const infiniteScrollCallback = (
+        entriesData: Array<IntersectionObserverEntry>,
+        observer: IntersectionObserver
+    ) => {
+        console.log('asdasd');
+        setEntries(entriesData);
+    };
+
+    const infiniteScrollSubscribe = () => {
+        const infiniteScrollConfig = {
+            configurationOptions: {
+                root: '.results-wrapper',
+                margin: '20px',
+                threshold: [0, 0.25, 0.5, 0.75, 1],
+            },
+            callbackFn: infiniteScrollCallback,
+        };
+
+        infiniteScroll(infiniteScrollConfig);
+    };
 
     const backendService = new BackendService();
     const props = useContext(AppContext);
 
     useEffect(() => {
+        console.log('here');
         updateUsersData();
+        // .then(() => {
+        //     infiniteScrollSubscribe();
+        // });
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        console.log('here scroll');
+        if (usersFiltered.length > 0) {
+            infiniteScrollSubscribe();
+        }
+    }, [usersFiltered]);
 
     const updateUsersData = async () => {
         await backendService.call('/users', 'GET').then((data: Array<User>) => setUsers(data));
@@ -203,27 +240,41 @@ export const Users = () => {
                 </Row>
             )}
 
-            {usersFiltered.map((user: User, key) => (
-                <Row key={key} className={`mx-1 ${key % 2 === 0 ? `bg-primary text-white` : ''}`}>
-                    <p className="mb-0 py-3">
-                        {props.data.id && <>#{user.id} - </>} {props.data.name && user.name}
-                        {props.data.actions && (
-                            <button
-                                onClick={() => {
-                                    createEditUser(user);
-                                }}
-                                className={`btn btn-outline btn-outline-${
-                                    key % 2 === 0 ? 'warning' : 'danger'
-                                } float-end py-0`}
-                            >
-                                Edit
-                            </button>
-                        )}
-                    </p>
-                </Row>
-            ))}
+            <div className={`results-wrapper ${pagination ? 'has-pagination' : ''}`}>
+                {usersFiltered.map((user: User, key) => (
+                    <Row
+                        key={key}
+                        className={`mx-1 user-row ${key % 2 === 0 ? `bg-primary text-white` : ''}`}
+                    >
+                        <p className="mb-0 py-3">
+                            <img
+                                // src={
+                                //     entries && entries.length && entries[key].isIntersecting
+                                //         ? 'https://picsum.photos/200'
+                                //         : ''
+                                // }
+                                alt=""
+                                key={key}
+                            />
+                            {props.data.id && <>#{user.id} - </>} {props.data.name && user.name}
+                            {props.data.actions && (
+                                <button
+                                    onClick={() => {
+                                        createEditUser(user);
+                                    }}
+                                    className={`btn btn-outline btn-outline-${
+                                        key % 2 === 0 ? 'warning' : 'danger'
+                                    } float-end py-0`}
+                                >
+                                    Edit
+                                </button>
+                            )}
+                        </p>
+                    </Row>
+                ))}
+            </div>
 
-            {users.length > 0 ? (
+            {users.length > 0 && pagination ? (
                 <Row className="mt-5">
                     <PaginationWrapper
                         totalItems={totalItems}
@@ -232,8 +283,10 @@ export const Users = () => {
                         onPaginationChange={paginationChange}
                     />
                 </Row>
+            ) : users.length > 0 && !pagination ? (
+                ''
             ) : (
-                'Loading users'
+                'Loading Users'
             )}
 
             <ModalWrapper

@@ -1,0 +1,9 @@
+.results-wrapper {
+    max-height: 70vh;
+    overflow-y: auto;
+
+    &.has-pagination {
+        max-height: unset;
+        overflow-y: unset;
+    }
+}
