@@ -12,7 +12,7 @@ import { useQuery } from './users.hook';
 import './styles.scss';
 import { infiniteScroll } from '../../helpers/intersection-observer';
 
-export const Users = ({ pagination }: { pagination: boolean }) => {
+export const Users = ({ pagination }: { pagination?: boolean }) => {
     const [users, setUsers] = useState<Array<User>>([]);
     const [modalProps, setModalProps] = useState<ModalProps>({
         title: '',
@@ -28,22 +28,26 @@ export const Users = ({ pagination }: { pagination: boolean }) => {
         pagination
     );
 
-    const [entries, setEntries] = useState<IntersectionObserverEntry[]>();
-
     const infiniteScrollCallback = (
         entriesData: Array<IntersectionObserverEntry>,
         observer: IntersectionObserver
     ) => {
-        console.log('asdasd');
-        setEntries(entriesData);
+        entriesData.forEach((el, index) => {
+            if (el.isIntersecting) {
+                el.target.setAttribute('src', `https://picsum.photos/200/300?random=${index}`);
+            } else {
+                el.target.removeAttribute('src');
+            }
+        });
     };
 
     const infiniteScrollSubscribe = () => {
         const infiniteScrollConfig = {
             configurationOptions: {
                 root: '.results-wrapper',
-                margin: '20px',
-                threshold: [0, 0.25, 0.5, 0.75, 1],
+                margin: '0px',
+                threshold: 0.25,
+                entrySelector: 'img',
             },
             callbackFn: infiniteScrollCallback,
         };
@@ -55,17 +59,12 @@ export const Users = ({ pagination }: { pagination: boolean }) => {
     const props = useContext(AppContext);
 
     useEffect(() => {
-        console.log('here');
         updateUsersData();
-        // .then(() => {
-        //     infiniteScrollSubscribe();
-        // });
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
-        console.log('here scroll');
         if (usersFiltered.length > 0) {
             infiniteScrollSubscribe();
         }
@@ -247,16 +246,9 @@ export const Users = ({ pagination }: { pagination: boolean }) => {
                         className={`mx-1 user-row ${key % 2 === 0 ? `bg-primary text-white` : ''}`}
                     >
                         <p className="mb-0 py-3">
-                            <img
-                                // src={
-                                //     entries && entries.length && entries[key].isIntersecting
-                                //         ? 'https://picsum.photos/200'
-                                //         : ''
-                                // }
-                                alt=""
-                                key={key}
-                            />
-                            {props.data.id && <>#{user.id} - </>} {props.data.name && user.name}
+                            <img src="" alt="" key={key} />
+                            {props.data.id && <>#{user.id} - </>}
+                            {props.data.name && user.name}
                             {props.data.actions && (
                                 <button
                                     onClick={() => {
@@ -274,7 +266,7 @@ export const Users = ({ pagination }: { pagination: boolean }) => {
                 ))}
             </div>
 
-            {users.length > 0 && pagination ? (
+            {usersFiltered.length > 0 && pagination ? (
                 <Row className="mt-5">
                     <PaginationWrapper
                         totalItems={totalItems}
@@ -283,7 +275,7 @@ export const Users = ({ pagination }: { pagination: boolean }) => {
                         onPaginationChange={paginationChange}
                     />
                 </Row>
-            ) : users.length > 0 && !pagination ? (
+            ) : usersFiltered.length > 0 && !pagination ? (
                 ''
             ) : (
                 'Loading Users'

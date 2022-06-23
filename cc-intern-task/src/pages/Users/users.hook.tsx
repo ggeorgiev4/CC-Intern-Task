@@ -10,7 +10,7 @@ interface IGetUser {
     setQuery: Dispatch<SetStateAction<string>>;
 }
 
-export const useQuery = (pageSize: number, users: User[] = [], pagination: boolean): IGetUser => {
+export const useQuery = (pageSize: number, users: User[] = [], pagination?: boolean): IGetUser => {
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const usersFiltered = users.filter(

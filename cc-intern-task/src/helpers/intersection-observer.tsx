@@ -1,5 +1,10 @@
 interface IInfiniteScroll {
-    configurationOptions: { root: string; margin: string; threshold: number | Array<number> };
+    configurationOptions: {
+        root: string;
+        entrySelector: string;
+        margin: string;
+        threshold: number | Array<number>;
+    };
     callbackFn: IntersectionObserverCallback;
 }
 
@@ -11,7 +16,7 @@ export const infiniteScroll = ({ configurationOptions, callbackFn }: IInfiniteSc
     };
 
     let observer = new IntersectionObserver(callbackFn, options);
-    Array.from(options.root.children).forEach((el) => {
+    Array.from(options.root.querySelectorAll(configurationOptions.entrySelector)).forEach((el) => {
         observer.observe(el);
     });
 };

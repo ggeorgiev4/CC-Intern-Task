@@ -13,7 +13,7 @@ export const AppRoutes = () => {
                     <Routes>
                         <Route path="*" element={<NoPage />} />
                         <Route index element={<Home />} />
-                        <Route path="users" element={<Users pagination={false} />} />
+                        <Route path="users" element={<Users />} />
                         <Route path="posts" element={<Posts />} />
                     </Routes>
                 </Layout>
